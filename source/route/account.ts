@@ -106,11 +106,18 @@ route.post("/register", async (req: Request, res: Response) => {
   var body: postRegister = req.body;
   await gamiAPI.loadAll();
   if (!validatedate(body.day, body.month, body.year)) {
-    res.json({ err: true, mess: "sai ngày tháng" });
+    res.status(400).json({ err: true, mess: "sai ngày tháng" });
+    return;
+  }
+  if (!validateEmail(body.account)) {
+    res.status(400).json({ err: true, mess: "đây không phải email" });
+    return;
+  }
+  if (body.password.length<=6) {
+    res.status(400).json({ err: true, mess: "mật khẩu quá ngắn" });
     return;
   }
   let tem = new temporaryuser();
-  console.log(gamiAPI.getAccessToken());
 
   tem.setAll(body);
   tem.valiCode = hash(JSON.stringify(tem.json()) + gamiAPI.getAccessToken());
