@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import express from "express";
 import __dirname from "../confi.js";
-import { hash, UnknownObject, validatedate, } from "../confi.js";
+import { hash, UnknownObject, validatedate, validateEmail, } from "../confi.js";
 import Account from "../source/model/Account.js";
 import Validateuser from "../source/model/Validateuser.js";
 import ControllerUser from "../source/controller/CtUsers.js";
@@ -42,6 +42,10 @@ route.get("/sign", (req, res) => {
 route.post("/sign", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var account = new Account();
     account["setAll"](req.body);
+    if (!validateEmail(account.getAccount())) {
+        res.status(400).json({ mess: "đây không phải email" });
+        return;
+    }
     var err = false;
     yield Promise.all([
         ctAccout.GetAccout(account),
@@ -97,11 +101,18 @@ route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function
     var body = req.body;
     yield gamiAPI.loadAll();
     if (!validatedate(body.day, body.month, body.year)) {
-        res.json({ err: true, mess: "sai ngày tháng" });
+        res.status(400).json({ err: true, mess: "sai ngày tháng" });
+        return;
+    }
+    if (!validateEmail(body.account)) {
+        res.status(400).json({ err: true, mess: "đây không phải email" });
+        return;
+    }
+    if (body.password.length <= 6) {
+        res.status(400).json({ err: true, mess: "mật khẩu quá ngắn" });
         return;
     }
     let tem = new temporaryuser();
-    console.log(gamiAPI.getAccessToken());
     tem.setAll(body);
     tem.valiCode = hash(JSON.stringify(tem.json()) + gamiAPI.getAccessToken());
     var kq = yield ctUser.GetUser(body.account);

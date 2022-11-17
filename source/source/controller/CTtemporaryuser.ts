@@ -23,6 +23,8 @@ export default class CTtemporaryuser {
     return new Promise((res, rej) => {
       var date = new Date();
       for (const key in this.list) {
+        console.log(key);
+        
         let temporaryuser:temporaryuser=this.list[key]
         if (date.getTime()-temporaryuser.CreatedTime.getTime() >= 60000) {
             delete this.list[key]

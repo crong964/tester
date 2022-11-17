@@ -5,7 +5,9 @@ export default class entity {
         for (const key in this) {
             if (Object.prototype.hasOwnProperty.call(this, key)) {
                 const element = p[key];
-                this[key] = p[key];
+                if (element !== undefined) {
+                    this[key] = p[key];
+                }
             }
         }
     }

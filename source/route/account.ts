@@ -44,6 +44,11 @@ route.get("/sign", (req: Request, res: Response) => {
 route.post("/sign", async (req: Request, res: Response) => {
   var account = new Account();
   account["setAll"](req.body);
+
+  if (!validateEmail(account.getAccount())) {
+    res.status(400).json({mess:"đây không phải email"})
+    return
+  }
   var err: boolean = false;
 
   await Promise.all([
@@ -118,10 +123,10 @@ route.post("/register", async (req: Request, res: Response) => {
     return;
   }
   let tem = new temporaryuser();
-
+  
   tem.setAll(body);
   tem.valiCode = hash(JSON.stringify(tem.json()) + gamiAPI.getAccessToken());
-
+  
   var kq = await ctUser.GetUser(body.account);
   if (kq != undefined) {
     res.status(400);
