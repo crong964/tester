@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+    <link rel="stylesheet" href="table.css">
+</head>
+
+<body>
+    <h2>Responsive Table</h2>
+    <a href="/account/out">đăng xuất</a>
+    <div class="s">
+        <div>Tìm kiếm bạn bè</div>
+        <input type="text" id="findNameFriends" placeholder="tên cần tìm">
+        <input type="submit" id="submitFindNameFriends">
+    </div>
+    <div class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>tên </th>
+                    <th>trạng thái</th>
+                    <th>ngày sinh</th>
+                    <th>giới tính</th>
+                </tr>
+            </thead>
+            <tbody id="tableRender">
+                <tr>
+
+                </tr>
+                <tbody>
+        </table>
+    </div>
+</body>
+<script src="client.js"></script>
+
+</html>

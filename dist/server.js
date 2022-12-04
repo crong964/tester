@@ -62,13 +62,13 @@ export function Vali(req, res, next) {
 }
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (validate(req)) {
-        res.sendFile(__dirname + "/font/client.html");
+        res.sendFile(__dirname + "/font/table.html");
         return;
     }
     var sercurity = req.cookies;
     var s = yield ctvalidateuser.GetValidateUser(sercurity.id, sercurity.sercurity);
     if (!s) {
-        res.sendFile(__dirname + "/font/sign.html");
+        res.sendFile(__dirname + "/font/index.html");
         return;
     }
     var date = new Date();
@@ -79,7 +79,7 @@ app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.cookie("ab", sercurity.ab, {
         httpOnly: true,
     });
-    res.sendFile(__dirname + "/font/client.html");
+    res.sendFile(__dirname + "/font/table.html");
 }));
 app.use("/account", route);
 app.use("/friends", Vali, routeFriends);

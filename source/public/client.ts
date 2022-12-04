@@ -1,152 +1,71 @@
-function postData(url:string,params:{},cb:Function) {
-    fetch(url,{
-        method:"POST",
-        headers: {
-            'Content-Type': 'application/json',
-            //'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        body:JSON.stringify(params)
+function postData(url: string, params: {}, cb: Function) {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      //'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(params),
+  })
+    .then((v) => {
+      return v.json();
     })
-    .then((v)=>{
-        return v.json()
-    })
-    .then((v)=>{
-        cb(JSON.stringify(v));
-    })
+    .then((v) => {
+      cb(JSON.stringify(v));
+    });
 }
-var root=document.getElementById("root")
-function render(params:string) {
-    root?.innerHTML=""
-    root?.append(params)
+interface friends {
+  id: number;
+  nameUser: string;
+  status: number;
+  birthday: string;
+  sex: number;
+  avatar: string;
+}
+interface res {
+  err: boolean;
+  listUser: friends[];
+}
+function render(params: string) {
+  var s: res = JSON.parse(params);
+
+  var list: friends[] = s.listUser;
+  var table = document.getElementById("tableRender");
+  while (table?.firstChild) {
+      table.removeChild(table.firstChild);
+  }
+  for (let i = 0; i < list.length; i++) {
+    const element = list[i];
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    var td3 = document.createElement("td");
+    var td4 = document.createElement("td");
+    var td5 = document.createElement("td");
+
+    td1.innerText = element.id + "";
+    td2.innerText = element.nameUser;
+    td3.innerText = element.status + "";
+    td4.innerText = element.birthday;
+    td5.innerText = element.sex?"nam":"nữ"
+
+    tr.append(td1);
+    tr.append(td2);
+    tr.append(td3);
+    tr.append(td4);
+    tr.append(td5);
+    table?.append(tr);
+  }
 }
 
-var listAddFriendRequest=document.getElementById("FriendsList")
-listAddFriendRequest?.addEventListener("click",()=>{
-    postData("http://localhost:666/friends/",
-    {},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-
-var findNameFriends=document.getElementById("findNameFriends")
-var submitFindNameFriends=document.getElementById("submitFindNameFriends");
-submitFindNameFriends?.addEventListener("click",()=>{
-    var n=findNameFriends?.value;
-   
-    postData("http://localhost:666/friends/search",
-    {name:n},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var idFriend=document.getElementById("idFriend");
-var submitIdFriend=document.getElementById("submitIdFriend")
-submitIdFriend?.addEventListener("click",()=>{
-    var id=idFriend?.value;
-    postData("http://localhost:666/friends/addFriendsRequset",
-    {idFriend:id},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var listAddFriendRequest=document.getElementById("listAddFriendRequest")
-listAddFriendRequest?.addEventListener("click",()=>{
-    postData("http://localhost:666/friends/listAddFriendRequest",
-    {},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-
-var CacelAddFriendRequest=document.getElementById("CacelAddFriendRequest");
-var SubmitCacelAddFriendRequest=document.getElementById("SubmitCacelAddFriendRequest")
-SubmitCacelAddFriendRequest?.addEventListener("click",()=>{
-    var n=CacelAddFriendRequest?.value;
-    postData("http://localhost:666/friends/cacelAddFriendRequest",
-    {idFriend:n},
-    (data:string)=>{
-        root?.append(data);
-    })
-})
-
-var AcceptAddFriendRequest=document.getElementById("AcceptAddFriendRequest");
-var SubmitAcceptAddFriendRequest=document.getElementById("SubmitAcceptAddFriendRequest")
-SubmitAcceptAddFriendRequest?.addEventListener("click",()=>{
-    var n=AcceptAddFriendRequest?.value;
-    postData("http://localhost:666/friends/acceptAddFriendRequest",
-    {idFriend:n},
-    (data:string)=>{
-        root?.append(data);
-    })
-})
-
-var SubmitBoxChatList=document.getElementById("SubmitBoxChatList")
-SubmitBoxChatList?.addEventListener("click",()=>{
-    postData("http://localhost:666/box/",
-    {},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var cancelFriends=document.getElementById("cancelFriends");
-var SubmitCancelFriends=document.getElementById("SubmitCancelFriends")
-SubmitCancelFriends?.addEventListener("click",()=>{
-    var n=cancelFriends?.value;
-    postData("http://localhost:666/friends/cancelFriends",
-    {idFriend:n},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var HiddenBoxChat=document.getElementById("HiddenBoxChat");
-var SubmitHiddenBoxChat=document.getElementById("SubmitHiddenBoxChat")
-SubmitHiddenBoxChat?.addEventListener("click",()=>{
-    var n=HiddenBoxChat?.value;
-    postData("http://localhost:666/box/hiddenBoxChat",
-    {idBox:n},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var Chat=document.getElementById("Chat");
-var SubmitChat=document.getElementById("SubmitChat")
-SubmitChat?.addEventListener("click",()=>{
-    var n=Chat?.value;
-    postData("http://localhost:666/box/chat",
-    {idFriend:n},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-var SubmitSentFriendRequest=document.getElementById("SubmitSentFriendRequest")
-SubmitSentFriendRequest?.addEventListener("click",()=>{
-    postData("http://localhost:666/friends/sentFriendRequest",
-    {},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-
-var GetContentInBox=document.getElementById("GetContentInBox");
-var SubMitGetContentInBox=document.getElementById("SubMitGetContentInBox")
-SubMitGetContentInBox?.addEventListener("click",()=>{
-    var n=GetContentInBox?.value;
-    postData("http://localhost:666/mess/getAllContent",
-    {idBox:n},
-    (data:string)=>{
-        render(data)
-    })
-})
-
-
-
+var findNameFriends = <HTMLInputElement>(
+  document.getElementById("findNameFriends")
+);
+var submitFindNameFriends = document.getElementById("submitFindNameFriends");
+submitFindNameFriends?.addEventListener("click", () => {
+  var n = findNameFriends?.value;
+  
+  postData("http://localhost:666/friends/search", { name: n }, (data: any) => {
+    render(data);
+  });
+});

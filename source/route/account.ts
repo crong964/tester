@@ -39,7 +39,7 @@ route.use((req, res, next) => {
   next();
 });
 route.get("/sign", (req: Request, res: Response) => {
-  res.sendFile(__dirname + "/font/sign.html");
+  res.sendFile(__dirname + "/font/index.html");
 });
 route.post("/sign", async (req: Request, res: Response) => {
   var account = new Account();
@@ -107,6 +107,10 @@ route.post("/sign", async (req: Request, res: Response) => {
 route.get("/register", (req: Request, res: Response) => {
   res.sendFile(__dirname + "/font/register.html");
 });
+route.get("/out",(req,res)=>{
+  clearCookie(res);
+  res.redirect("/");
+})
 route.post("/register", async (req: Request, res: Response) => {
   var body: postRegister = req.body;
   await gamiAPI.loadAll();

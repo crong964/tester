@@ -34,6 +34,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
+  
   res.setHeader("access-control-allow-origin", "*");
   next();
 });
@@ -65,7 +66,7 @@ export async function Vali(req: Request, res: Response, next: NextFunction) {
 
 app.get("/", async (req, res) => {
   if (validate(req)) {
-    res.sendFile(__dirname + "/font/client.html");
+    res.sendFile(__dirname + "/font/table.html");
     return;
   }
   var sercurity: sercurity = req.cookies;
@@ -74,7 +75,7 @@ app.get("/", async (req, res) => {
     sercurity.sercurity
   );
   if (!s) {
-    res.sendFile(__dirname + "/font/sign.html");
+    res.sendFile(__dirname + "/font/index.html");
     return;
   }
   var date = new Date();
@@ -86,7 +87,7 @@ app.get("/", async (req, res) => {
     httpOnly: true,
   });
 
-  res.sendFile(__dirname + "/font/client.html");
+  res.sendFile(__dirname + "/font/table.html");
 });
 app.use("/account", route);
 app.use("/friends", Vali, routeFriends);

@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import express from "express";
-import __dirname from "../confi.js";
+import __dirname, { clearCookie } from "../confi.js";
 import { hash, UnknownObject, validatedate, validateEmail, } from "../confi.js";
 import Account from "../source/model/Account.js";
 import Validateuser from "../source/model/Validateuser.js";
@@ -37,7 +37,7 @@ route.use((req, res, next) => {
     next();
 });
 route.get("/sign", (req, res) => {
-    res.sendFile(__dirname + "/font/sign.html");
+    res.sendFile(__dirname + "/font/index.html");
 });
 route.post("/sign", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var account = new Account();
@@ -96,6 +96,10 @@ route.post("/sign", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 route.get("/register", (req, res) => {
     res.sendFile(__dirname + "/font/register.html");
+});
+route.get("/out", (req, res) => {
+    clearCookie(res);
+    res.redirect("/");
 });
 route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var body = req.body;
