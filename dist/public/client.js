@@ -1,20 +1,22 @@
 "use strict";
+
 function postData(url, params, cb) {
     fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            //'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(params),
-    })
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(params),
+        })
         .then((v) => {
-        return v.json();
-    })
+            return v.json();
+        })
         .then((v) => {
-        cb(JSON.stringify(v));
-    });
+            cb(JSON.stringify(v));
+        });
 }
+
 function render(params) {
     var s = JSON.parse(params);
     var list = s.listUser;
@@ -43,6 +45,7 @@ function render(params) {
         table === null || table === void 0 ? void 0 : table.append(tr);
     }
 }
+//hello
 var findNameFriends = (document.getElementById("findNameFriends"));
 var submitFindNameFriends = document.getElementById("submitFindNameFriends");
 submitFindNameFriends === null || submitFindNameFriends === void 0 ? void 0 : submitFindNameFriends.addEventListener("click", () => {
